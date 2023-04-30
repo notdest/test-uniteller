@@ -3,7 +3,7 @@
 @section('content')
 <H1>История операций</H1>
 
-<a href="/">На главную</a>
+<a href="{{ route('mainPage') }}">На главную</a>
 
 <form method="get" class="mt-3">
     <input type="text" name="search" value="{{ $search }}" placeholder="Поиск по сообщению">
@@ -14,7 +14,7 @@
 <thead>
     <tr>
         <th>#</th>
-        <th><a href="/history?sort={{ ($sort=='asc') ? 'desc':'asc' }}&search={{$search}}">Время</a></th>
+        <th><a href="{{ route('history') }}?sort={{ ($sort=='asc') ? 'desc':'asc' }}&search={{$search}}">Время</a></th>
         <th>Id пользователя</th>
         <th>Объём</th>
         <th>Сообщение</th>
