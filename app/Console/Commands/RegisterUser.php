@@ -55,6 +55,7 @@ class RegisterUser extends Command
             return Command::FAILURE;
         }
 
+
         DB::transaction(function () use($name,$email,$password){
             $user = User::create([
                 'name'      => $name,
