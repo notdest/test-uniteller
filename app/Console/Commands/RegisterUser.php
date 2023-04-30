@@ -32,13 +32,16 @@ class RegisterUser extends Command
      */
     public function handle()
     {
-        $params = [
-            'name'      => $this->argument('name'),
-            'email'     => $this->argument('email'),
-            'password'  => $this->argument('password'),
-        ];
+        $name      = $this->argument('name');
+        $email     = $this->argument('email');
+        $password  = $this->argument('password');
 
-        $validator  = Validator::make($params, [
+
+        $validator  = Validator::make([
+                'name'      => $name,
+                'email'     => $email,
+                'password'  => $password,
+           ], [
                 'name'      => ['required', 'string', 'max:255'],
                 'email'     => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
                 'password'  => ['required', 'string', 'max:255'],
@@ -52,13 +55,18 @@ class RegisterUser extends Command
             return Command::FAILURE;
         }
 
-        DB::transaction(function () use($params){
-            $user = User::create($params);
+
+        DB::transaction(function () use($name,$email,$password){
+            $user = User::create([
+                'name'      => $name,
+                'email'     => $email,
+                'password'  => Hash::make($password),
+            ]);
             DB::insert('INSERT INTO `balances` (`user_id`, `balance`) VALUES (?, 0);', [$user->id]);
         });
 
 
-        echo "User ".$params['name']." created\n";
+        echo "User $name created\n";
         return Command::SUCCESS;
     }
 }
