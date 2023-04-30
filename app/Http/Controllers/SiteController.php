@@ -11,13 +11,14 @@ class SiteController extends Controller
 
     public function mainPage(Request $request):View
     {
-        $user = $request->user();
+        $user   = $request->user();
+        $short  = isset($request->short);
 
         $balance    = DB::scalar("SELECT `balance` FROM `balances` WHERE `user_id` = ? ;", [$user->id] );
         $operations = DB::select("SELECT * FROM `operations` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT 5",
                                                                                                         [$user->id]);
 
-        return view('site.mainPage',[
+        return view($short ? 'site.mainPageTable' : 'site.mainPage',[
             'balance'       => $balance,
             'operations'    => $operations,
         ]);

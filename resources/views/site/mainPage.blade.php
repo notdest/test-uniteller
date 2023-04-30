@@ -5,6 +5,8 @@
 
 <a href="/history">История операций</a>
 
+<span id="table">
 @include('site.mainPageTable')
+</span>
 
 @endsection
